@@ -1,0 +1,23 @@
+{
+    "name": "sharkezz/quickpath",
+    "description": "Fast and simple PHP routing class.",
+    "type": "library",
+    "require": {
+        "guzzlehttp/psr7": "^1.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SharkEzz",
+            "email": "icraft640@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SharkEzz\\QuickPath\\": "src/"
+        }
+    }
+}
