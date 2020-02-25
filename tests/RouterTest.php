@@ -8,6 +8,9 @@ use SharkEzz\QuickPath\QuickPath;
 
 class RouterTest extends TestCase
 {
+    /**
+     * @var QuickPath
+     */
     private $router;
 
     protected function setUp(): void
@@ -21,10 +24,10 @@ class RouterTest extends TestCase
 
         $this->router->map('/test', 'GET', 'test', 'TestController#test');
         $route = $this->router->match($request);
-        $this->assertEquals('test', $route->getName());
-        $this->assertEquals('/test', $route->getPath());
-        $this->assertEquals('TestController#test', $route->getAction());
-        $this->assertEquals('GET', $route->getMethod());
+        $this->assertEquals('test', $route['name']);
+        $this->assertEquals('/test', $route['route']->getPath());
+        $this->assertEquals('TestController#test', $route['action']);
+        $this->assertEquals('GET', $route['route']->getMethod());
     }
 
     public function testMatchGETWithParameters()
@@ -33,25 +36,10 @@ class RouterTest extends TestCase
 
         $this->router->map('/test/[name:s]-[id:i]', 'GET', 'test', 'TestController#test');
         $route = $this->router->match($request);
-        $this->assertEquals('test', $route->getName());
-        $this->assertEquals('/test/[name:s]-[id:i]', $route->getPath());
-        $this->assertEquals('TestController#test', $route->getAction());
-        $this->assertEquals('GET', $route->getMethod());
-        $this->assertEquals(['name' => 'test', 'id' => '5'], $route->getParameters());
+        $this->assertEquals('test', $route['name']);
+        $this->assertEquals('/test/[name:s]-[id:i]', $route['route']->getPath());
+        $this->assertEquals('TestController#test', $route['action']);
+        $this->assertEquals('GET', $route['route']->getMethod());
+        $this->assertEquals(['name' => 'test', 'id' => '5'], $route['params']);
     }
-
-    public function testMatchGETWithParametersAndCallback()
-    {
-        $request = new Request('GET', '/test/test-5');
-
-        $this->router->map('/test/[name:s]-[id:i]', 'GET', 'test', function (string $name, string $id) {return $name.'-'.$id;});
-        $route = $this->router->match($request);
-        $this->assertEquals('test', $route->getName());
-        $this->assertEquals('/test/[name:s]-[id:i]', $route->getPath());
-        $this->assertEquals('GET', $route->getMethod());
-        $this->assertEquals(['name' => 'test', 'id' => '5'], $route->getParameters());
-        $this->assertEquals('test-5', $route->getAction());
-    }
-
-
 }

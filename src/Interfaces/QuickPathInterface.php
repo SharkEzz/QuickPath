@@ -16,7 +16,7 @@ interface QuickPathInterface
 
     /**
      * @param RequestInterface $request
-     * @return RouteInterface|null
+     * @return array
      */
-    public function match(RequestInterface $request): ?RouteInterface;
+    public function match(RequestInterface $request): array;
 }

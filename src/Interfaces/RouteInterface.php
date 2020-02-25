@@ -9,9 +9,9 @@ interface RouteInterface
      * @param string $path
      * @param string $method
      * @param string $name
-     * @param $action
+     * @param string $action
      */
-    public function __construct(string $path, string $method, string $name, $action);
+    public function __construct(string $path, string $method, string $name, string $action);
 
     /**
      * @return string
@@ -34,7 +34,22 @@ interface RouteInterface
     public function getAction();
 
     /**
-     * @return array|null
+     * @return string
      */
-    public function getParameters(): ?array;
+    public function getBasePath(): string;
+
+    /**
+     * @return int
+     */
+    public function getParametersCount(): int;
+
+    /**
+     * @return string
+     */
+    public function getRegex(): string;
+
+    /**
+     * @return array
+     */
+    public function getParametersName(): array;
 }
