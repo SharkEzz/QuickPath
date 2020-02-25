@@ -42,4 +42,16 @@ class RouterTest extends TestCase
         $this->assertEquals('GET', $route['route']->getMethod());
         $this->assertEquals(['name' => 'test', 'id' => '5'], $route['params']);
     }
+
+    public function testMatchGETWithParametersComplexRoute()
+    {
+        $request = new Request('GET', '/test/test-5-article');
+
+        $this->router->map('/test/[name:s]-[id:i]-[article:s]', 'GET', 'test', 'TestController#test2');
+        $route = $this->router->match($request);
+        $this->assertEquals('test', $route['name']);
+        $this->assertEquals('TestController#test2', $route['action']);
+        $this->assertEquals('GET', $route['route']->getMethod());
+        $this->assertEquals(['name' => 'test', 'id' => '5', 'article' => 'article'], $route['params']);
+    }
 }

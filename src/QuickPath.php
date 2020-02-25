@@ -13,17 +13,12 @@ class QuickPath implements QuickPathInterface
     /**
      * @var RouteInterface[]
      */
-    private $routes;
+    protected $routes;
 
     /**
      * @var string[]
      */
-    private $namedRoutes = [];
-
-    /**
-     * @var string
-     */
-    private $currentUrl;
+    protected $namedRoutes = [];
 
     /**
      * @inheritDoc
@@ -47,7 +42,6 @@ class QuickPath implements QuickPathInterface
     public function match(RequestInterface $request): array
     {
         $request_url = $request->getUri();
-        $this->currentUrl = $request_url;
         $request_method = $request->getMethod();
 
         $matchedRoute = null;
@@ -96,7 +90,7 @@ class QuickPath implements QuickPathInterface
         ];
     }
 
-    private function getBasePath(string $url)
+    protected function getBasePath(string $url)
     {
         $path = explode('/', $url)[1];
         return '/'.$path;

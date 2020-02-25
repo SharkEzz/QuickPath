@@ -8,9 +8,9 @@ use SharkEzz\QuickPath\Interfaces\RouteInterface;
 
 class Route implements RouteInterface
 {
-    private const ALLOWED_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+    protected $allowed_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
-    private $matchTypes = [
+    protected $matchTypes = [
         'i'  => '([0-9]++)',
         's'  => '([0-9A-Za-z\-]+)',
     ];
@@ -19,48 +19,48 @@ class Route implements RouteInterface
      * The path is the route with all the parameters
      * @var string
      */
-    private $path;
+    protected $path;
 
     /**
      * The url is the route called with parameters replaced with values
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
      * @var string
      */
-    private $method;
+    protected $method;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $action;
+    protected $action;
 
     /**
      * @var integer
      */
-    private $parametersCount;
+    protected $parametersCount;
 
     /**
      * @var array
      */
-    private $parameters = [];
+    protected $parameters = [];
 
     /**
      * @var string
      */
-    private $regex;
+    protected $regex;
 
     /**
      * @var string
      */
-    private $basePath;
+    protected $basePath;
 
     /**
      * @inheritDoc
@@ -123,7 +123,7 @@ class Route implements RouteInterface
         return $this->basePath;
     }
 
-    private function setBasePath(): string
+    protected function setBasePath(): string
     {
         $path = explode('/', $this->path)[1];
         return '/'.$path;
@@ -139,9 +139,9 @@ class Route implements RouteInterface
      * @return string
      * @throws InvalidMethodException
      */
-    private function validateMethod(string $method): string
+    protected function validateMethod(string $method): string
     {
-        if(in_array($method, self::ALLOWED_METHODS))
+        if(in_array($method, $this->allowed_methods))
         {
             return $method;
         }
@@ -155,7 +155,7 @@ class Route implements RouteInterface
      * @param string $path
      * @throws RouteException
      */
-    private function processPath(string $path)
+    protected function processPath(string $path)
     {
         preg_match_all('`(.|)\[([^:\]]*+)(?::([^:\]]*+))?\]`', $path, $matches, PREG_SET_ORDER);
         foreach ($matches as $match)
@@ -180,7 +180,7 @@ class Route implements RouteInterface
      * @return string
      * @throws RouteException
      */
-    private function createRegex(string $path, array $matches): string
+    protected function createRegex(string $path, array $matches): string
     {
         $regex = '`';
         foreach ($matches as $match)
@@ -198,7 +198,7 @@ class Route implements RouteInterface
      * @return mixed
      * @throws RouteException
      */
-    private function getMatchType(string $identifier)
+    protected function getMatchType(string $identifier)
     {
         if(array_key_exists($identifier, $this->matchTypes))
         {
